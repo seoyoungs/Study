@@ -81,7 +81,7 @@ output2=Dense(3)(output2) #여기까지가 y2
 #모델 선언 (함수형으로)
 model = Model(inputs=[input1], 
               outputs=[output1, output2]) #두개 이상은 list로 묶는다.
-#model.summary()
+model.summary()
 
 #3. 컴파일, 훈련
 model.compile(loss='mse', optimizer='adam', metrics=['mse'])

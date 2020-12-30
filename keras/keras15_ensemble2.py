@@ -34,16 +34,16 @@ from tensorflow.keras.layers import Dense, Input
 
 #모델 1
 input1= Input(shape=(3,))
-dense1=Dense(20, activation='relu')(input1)
-dense1=Dense(4, activation='relu')(dense1)
+dense1=Dense(10, activation='relu')(input1)
 dense1=Dense(5, activation='relu')(dense1)
 #output1=Dense(3)(dense1)
+
 
 #모델 2
 input2= Input(shape=(3,))
 dense2=Dense(10, activation='relu')(input2)
 dense2=Dense(5, activation='relu')(dense2)
-dense2=Dense(4, activation='relu')(dense2)
+dense2=Dense(5, activation='relu')(dense2)
 dense2=Dense(5, activation='relu')(dense2)
 #output2=Dense(3)(dense2)
 
@@ -52,16 +52,15 @@ from tensorflow.keras.layers import concatenate, Concatenate
 #from keras.layers.merge import concatenate, Concatenate
 #from keras.layers import concatenate, Concatenate
 merge1 = concatenate([dense1,dense2]) #모델 1,2 병합
-middle1=Dense(20)(merge1) #모델 합친후에도 layer추가 가능
+middle1=Dense(30)(merge1) #모델 합친후에도 layer추가 가능
 middle1=Dense(10)(merge1)
-middle1=Dense(7)(merge1)
-middle1=Dense(3)(merge1) 
+middle1=Dense(10)(merge1)
 
 #데이터 합친 것 다시 나누기(100,3)2개니까 (100,6)된것 다시 나누기
 #모델 분기1
-output1= Dense(10)(middle1)
+output1= Dense(30)(middle1)
 output1=Dense(7)(output1)
-output1=Dense(5)(output1)
+output1=Dense(7)(output1)
 output1=Dense(3)(output1) #여기까지가 y1--> 아웃풋1
 '''
 #모델 분기2
@@ -76,7 +75,7 @@ model = Model(inputs=[input1,input2],
 model.summary()
 
 #3. 컴파일, 훈련
-model.compile(loss='mse', optimizer='adam', metrics=['mse'])
+model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 model.fit([x1_train, x2_train], y1_train,
            epochs=50, batch_size=1, validation_split=0.2, verbose=0) 
 #모델 2개이므로 원래 x_train, y_train 넣었는데 2개이므로 list사용

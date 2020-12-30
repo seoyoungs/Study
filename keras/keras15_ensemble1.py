@@ -71,8 +71,8 @@ model = Model(inputs=[input1,input2],
 model.summary()
 
 #3. 컴파일, 훈련
-model.compile(loss='mse', optimizer='adam', metrics=['mse'])
-model.fit([x1_train, x2_train], [y1_train, y2_train],
+model.compile(loss='mse', optimizer='adam', metrics=['mae'])
+dd=model.fit([x1_train, x2_train], [y1_train, y2_train],
            epochs=10, batch_size=1, validation_split=0.2, verbose=0) 
 #모델 2개이므로 원래 x_train, y_train 넣었는데 2개이므로 list사용
 #모델 2개 이므로 list([])로 묶는다.
@@ -86,9 +86,11 @@ print(loss)
 #concatenate 뜻
 metrics=['mse']로 했을 때
 [2737.472412109375, 1091.6365966796875, 1645.8359375, 1091.6365966796875, 1645.8359375] 
+첫로스+두번째 로스의 산술합 / 첫 모델의 로스 /두번째 모델의 로스 / 첫번째 메트릭스 / 두번째 메트릭스
 [1091.6365966796875, 1645.8359375]을 합한 값은 2384.06982421875
 loss의 mse와 metrics의 mae값이 같다
 concatenate값1개, loss값 2개, metrics값2개 해서 총 5개 값이 나온다.
+
 '''
 
 

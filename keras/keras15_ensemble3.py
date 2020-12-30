@@ -6,21 +6,19 @@ import numpy as np
 
 #앙상블 모델이 2개
 #1.데이터
-x1=np.array([range(100),range(301, 401), range(1,101)])
-y1=np.array([range(711,811), range(1,101), range(201,301)])#각100개
-
-x2=np.array([range(101, 201), range(411,511), range(100, 200)])
-y2=np.array([range(501, 601), range(711, 811), range(100)])
-
-y3=np.array([range(601, 701), range(811, 911), range(1100,1200)])
+x1=np.array([range(100),range(301, 401), range(1,101)]).T
+y1=np.array([range(711,811), range(1,101), range(201,301)]).T
+x2=np.array([range(101, 201), range(411,511), range(100, 200)]).T
+y2=np.array([range(501, 601), range(711, 811), range(100)]).T
+y3=np.array([range(601, 701), range(811, 911), range(1100,1200)]).T
 #3행 100열 모델
-
+'''
 x1= np.transpose(x1)
 x2= np.transpose(x2)
 y1= np.transpose(y1)
 y2= np.transpose(y2)
 y3= np.transpose(y3)
-
+'''
 #pred
 x_pred2=np.array([100,302,101]) #행렬 바꾸기1
 x_pred3=np.array([100,302,101]) #행렬 바꾸기1
@@ -42,7 +40,7 @@ y3_train, y3_test =train_test_split(
 #2. 모델구성
 from tensorflow.keras.models import Sequential, Model 
 #Model은 함수형으로 입력하겠다는 뜻이다
-from tensorflow.keras.layers import Dense, Input
+from tensorflow.keras.layers import Dense, Input, concatenate, Concatenate
 
 #모델 1
 input1= Input(shape=(3,))
@@ -59,9 +57,6 @@ dense2=Dense(5, activation='relu')(dense2)
 #output2=Dense(3)(dense2)
 
 #모델 병합 / concatenate
-from tensorflow.keras.layers import concatenate, Concatenate
-#from keras.layers.merge import concatenate, Concatenate
-#from keras.layers import concatenate, Concatenate
 merge1 = concatenate([dense1,dense2]) #모델 1,2 병합
 middle1=Dense(30)(merge1) #모델 합친후에도 layer추가 가능
 middle1=Dense(10)(merge1)
@@ -88,12 +83,12 @@ output3=Dense(3)(output3) #여기까지가 y3
 #모델 선언 (함수형으로)
 model = Model(inputs=[input1,input2], 
               outputs=[output1, output2, output3]) #두개 이상은 list로 묶는다.
-#model.summary()
+model.summary()
 
 #3. 컴파일, 훈련
-model.compile(loss='mse', optimizer='adam', metrics=['mse'])
+model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 model.fit([x1_train, x2_train], [y1_train, y2_train, y3_train],
-           epochs=10, batch_size=1, validation_split=0.2, verbose=1) 
+           epochs=10, batch_size=1, validation_split=0.2, verbose=0) 
 #모델 2개이므로 원래 x_train, y_train 넣었는데 2개이므로 list사용
 #모델 2개 이므로 list([])로 묶는다.
 
@@ -101,6 +96,7 @@ model.fit([x1_train, x2_train], [y1_train, y2_train, y3_train],
 loss= model.evaluate([x1_test, x2_test], 
          [y1_test, y2_test, y3_test], batch_size=1)
 print(loss)
+print("model.metrics_name : ",model.metrics_names)
 '''
 #concatenate 뜻
 metrics=['mse']로 했을 때
@@ -109,7 +105,7 @@ metrics=['mse']로 했을 때
 loss의 mse와 metrics의 mae값이 같다
 concatenate값1개, loss값 2개, metrics값2개 해서 총 5개 값이 나온다.
 '''
-print("model.metrics_names :", model.metrics_names)
+#print("model.metrics_names :", model.metrics_names)
 # model.metrics_names : ['loss', 'dense_11_loss', 'dense_15_loss', 'dense_11_mse', 'dense_15_mse']
 #이걸보면 print(loss) 했을 때 값 알 수 있다. summary 참조
 
@@ -155,3 +151,4 @@ print('R2 : ', R2)
 #다만들면 predict의 일부값을 출력하시오
 y_pred=model.predict([x_pred2,x_pred2])
 print(y_pred)
+
