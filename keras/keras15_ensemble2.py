@@ -53,8 +53,8 @@ from tensorflow.keras.layers import concatenate, Concatenate
 #from keras.layers import concatenate, Concatenate
 merge1 = concatenate([dense1,dense2]) #모델 1,2 병합
 middle1=Dense(30)(merge1) #모델 합친후에도 layer추가 가능
-middle1=Dense(10)(merge1)
-middle1=Dense(10)(merge1)
+middle1=Dense(10)(middle1)
+middle1=Dense(10)(middle1)
 
 #데이터 합친 것 다시 나누기(100,3)2개니까 (100,6)된것 다시 나누기
 #모델 분기1
