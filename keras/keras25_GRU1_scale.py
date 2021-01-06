@@ -51,6 +51,5 @@ SimpleRNN보다 결과값 좋다
 ((n+m)*m+m+m)*3 
 ((1+10)*10+10+10)*3=390
 
-
 activation Default(디폴트): tangent 
 '''

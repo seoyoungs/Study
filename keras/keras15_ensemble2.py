@@ -89,12 +89,14 @@ print("model.metrics_names :", model.metrics_names)
 # model.metrics_names : ['loss', 'dense_11_loss', 'dense_15_loss', 'dense_11_mse', 'dense_15_mse']
 #이걸보면 print(loss) 했을 때 값 알 수 있다. summary 참조
 
-y1_predict =model.predict([x1_test, x2_test]) 
+y1_predict =model.predict([x1_test, x2_test])
+
 '''
 print("==============")
 print("y1_predict : ",y1_predict)
 print("==============")
 #test_size가 20개 이므로 20개나온다.
+'''
 '''
 #사이킷런 RMSE
 from sklearn.metrics import mean_squared_error
@@ -110,3 +112,4 @@ print('RMSE : ', RMSE(y1_test, y1_predict))
 from sklearn.metrics import r2_score
 r2 = r2_score(y1_test, y1_predict)
 print("R2 : ", r2)
+'''

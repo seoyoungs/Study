@@ -36,7 +36,6 @@ print(loss)
 
 x_pred =np.array([50,60,70]) #(3,) 행은 하나 -> (1,3,1)
 x_pred= x_pred.reshape(1,3,1)
-
 result=model.predict(x_pred)
 print(result)
 
