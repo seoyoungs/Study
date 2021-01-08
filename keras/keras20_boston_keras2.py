@@ -6,26 +6,31 @@ import numpy as np
 from tensorflow.keras.datasets import boston_housing
 #이걸로 만들어라라라ㅏ라라
 #tensorflow에서 제공하므로 sklearn과 아예 다르다. x,y 할당법 찾기
-(x_train, y_train), (x_test, y_test) = boston_housing.load_data()
+(train_data, train_target), (test_data, test_target) = boston_housing.load_data()
 
+x_train = train_data
+y_train = train_target
+x_test = test_data
+y_test = test_target
+
+'''
+(x_train, y_train), (x_test, y_test) = boston_housing.load_data()
 print(len(x_train), len(x_test))
 print(x_train[0])
 print(y_train[0])
-
 x_mean = x_train.mean(axis=0)
 x_std = x_train.std(axis=0)
 x_train -= x_mean
 x_train /= x_std
 x_test -= x_mean
 x_test /= x_std
-
 y_mean = y_train.mean(axis=0)
 y_std = y_train.std(axis=0)
 y_train -= y_mean
 y_train /= y_std
 y_test -= y_mean
 y_test /= y_std
-
+'''
 print(x_train[0])
 print(y_train[0])
 
@@ -72,7 +77,5 @@ loss, mae :  0.2743679881095886 0.33615097403526306
 RMSE :  0.5238014693073252
 R2 :  0.721088862526471
 '''
-
-
 
 

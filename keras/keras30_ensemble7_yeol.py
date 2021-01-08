@@ -81,13 +81,13 @@ model.compile(loss='mse', optimizer='adam')
 from tensorflow.keras.callbacks import EarlyStopping
 stop = EarlyStopping(monitor='loss', patience=20, mode='min')
 
-model.fit([x1, x2], [y1, y2], epochs=100, batch_size=3, )
+model.fit([x1, x2], [y1, y2], epochs=100, batch_size=3)
 
 #평가, 예측
 loss = model.evaluate([x1, x2], [y1,y2], batch_size=3)
 print('loss: ', loss)
 
-y_pred= model.predict([x1_predict, x2_predict])
-print('y_pred: ', y_pred)
-
+y1_pred, y2_pred = model.predict([x1_predict, x2_predict])
+print('y1_pred: ', y1_pred)
+print('y2_pred: ', y2_pred)
 
