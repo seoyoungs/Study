@@ -46,7 +46,7 @@ cp =ModelCheckpoint(filepath='modelpath5', monitor='val_loss',
                     save_best_only=True, mode='auto')
 #ModelCheckpoint는 최저점이 생길 때마다 filepath(파일형태)로 기록한다.
 #파일형태에 weight 값을 기록하기 위해 사용한다. 최적의 weight(val_loss가장낮음)
-model.compile(loss='categorical_crossentropy',
+model.compile(loss='mse',
               optimizer='adam', metrics=['mae'])
 ####loss가 이진 분류일 때는binary_crossentropy(0,1만 추출)
 hist = model.fit(x_train,y_train, epochs=20, batch_size=16, verbose=1,

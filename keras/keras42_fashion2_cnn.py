@@ -12,7 +12,7 @@ x_test= x_test.reshape(10000, 28,28, 1)/255.
 #x_test=x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[2],1)
 #x_train=x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[2],1)
 ###이미 전처리 이걸로 해서 minmax안써도 됨
-'''
+
 #다중분류 y원핫코딩
 from keras.utils.np_utils import to_categorical
 y_train = to_categorical(y_train)
@@ -32,7 +32,7 @@ model.add(Dense(5))
 model.add(Flatten())
 model.add(Dense(5, activation='relu'))
 model.add(Dense(10, activation='softmax')) #y값 3개이다(0,1,2)
-model.summary()
+#model.summary()
 
 #3. 컴파일, 훈련
 model.compile(loss='categorical_crossentropy',
@@ -48,7 +48,7 @@ print(loss)
 y_pred = model.predict(x_test[:10])
 print('y_pred: ', y_pred.argmax(axis=1))
 print('y_test: ', y_test[:10].argmax(axis=1))
-'''
+
 '''
 CNN
 [0.3294849693775177, 0.8870000243186951]
