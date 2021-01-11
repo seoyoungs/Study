@@ -72,6 +72,10 @@ model.fit(x_train,y_train, epochs=15,
 loss=model.evaluate(x_test,y_test, batch_size=32)
 print(loss)
 
+y_pred = model.predict(x_test[:10])
+print('y_pred: ', y_pred.argmax(axis=1))
+print('y_test: ', y_test[:10].argmax(axis=1))
+
 '''
 Mnist
 결과
@@ -82,5 +86,7 @@ Dnn
 
 LSTM
 [0.5545739531517029, 0.8016999959945679]
+y_pred:  [7 2 1 0 4 1 4 9 5 9]
+y_test:  [7 2 1 0 4 1 4 9 5 9]
 '''
 

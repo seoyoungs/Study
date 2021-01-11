@@ -76,6 +76,11 @@ model.fit(x_train,y_train, epochs=20,
 loss=model.evaluate(x_test,y_test, batch_size=16)
 print(loss)
 
+y_pred = model.predict(x_test)
+#R2 (accuracy대산 R2를 사용한다.)
+from sklearn.metrics import r2_score
+r2 = r2_score(y_test, y_pred)
+print("R2 : ", r2)
 
 '''
 Mnist

@@ -48,8 +48,9 @@ y_test = to_categorical(y_test)  #(10000, 10)
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM
 model=Sequential()
-model.add(LSTM(units=12, activation='relu', input_shape=(28*28,)))
+model.add(Dense(units=12, activation='relu', input_shape=(28*28,)))
 model.add(Dense(20,activation='relu'))
+model.add(Dense(15,activation='relu'))
 model.add(Dense(units=10, activation='softmax'))
 model.summary()
 
@@ -63,6 +64,9 @@ model.fit(x_train,y_train, epochs=10,
 #4. 평가 훈련
 loss=model.evaluate(x_test,y_test, batch_size=32)
 print(loss)
+y_pred = model.predict(x_test[:10])
+print('y_pred: ', y_pred.argmax(axis=1))
+print('y_test: ', y_test[:10].argmax(axis=1))
 
 '''
 Mnist
@@ -70,7 +74,7 @@ Mnist
 [0.11182762682437897, 0.9659000039100647]
 
 Dnn
-[0.19730423390865326, 0.9408000111579895]
+loss: [0.18929392099380493, 0.9452999830245972]
+y_pred:  [7 2 1 0 4 1 4 9 6 9]
+y_test:  [7 2 1 0 4 1 4 9 5 9]
 '''
-
-
