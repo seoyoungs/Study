@@ -56,7 +56,7 @@ model.add(Flatten())
 model.add(Dense(11))
 model.add(Dense(11))
 model.add(Dense(3))
-model.add(Dense(1, activation='softmax')) #마지막에만 sigmoid를 준다
+model.add(Dense(3, activation='softmax')) #마지막에만 sigmoid를 준다
 
 #3. 컴파일, 훈련
                    #mean_squared_error

@@ -86,6 +86,7 @@ early_stopping=EarlyStopping(monitor='loss', patience=10, mode='min')
 #patience=10는 참는다.?- 로스의 최소값 10번만 찾겠다.
 #mode에서 min, max인지 헷갈리면 mode='outo'로 하자
 #epoch를 설정해도 원하는 값 달성하면 멈춘다.
+#EarlyStopping의 단점 최적의 loss를 patience만큼 지나치게 됩니다.
 
 model.fit(x_train, y_train, epochs=500, batch_size=10,
           validation_data=(x_val, y_val), verbose=1, callbacks=[early_stopping])

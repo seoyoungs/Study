@@ -55,7 +55,8 @@ y_test = to_categorical(y_test)  #(10000, 10)
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, LSTM
 model=Sequential()
-model.add(LSTM(units=15, activation='relu', input_shape=(7*7,16)))
+model.add(LSTM(units=15, activation='relu', input_shape=(14*14,4))) #28,28
+#input_shape 나눌때 28의 약수와 배수로만 나누기
 model.add(Dense(8,activation='relu'))
 model.add(Dense(13,activation='relu'))
 model.add(Dense(units=10, activation='softmax'))
