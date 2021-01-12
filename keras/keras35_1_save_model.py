@@ -14,16 +14,16 @@ model.add(Dense(1))
 model.summary()
 
 #모델 저장
-model.save("./model/save_keras35.h5")  # ./ :이표시 현재 폴더
+model.save("../data/h5/test_save_keras35_1.h5")  # ./ :이표시 현재 폴더
 ###현재 열려있는 위치는 study이다.
 ##근데 나중에 파이참으로 시험보는 것은 keras가 위치다 주의하기
 ###당분간 확장자 명은 .h5라 하자
 '''
 이거 다 저장된다.----> 아무거나 하기
-model.save("./model/save_keras35_1.h5")
-model.save(".//model/save_keras35_2.h5")
-model.save(".\model\save_keras35_3.h5")
-model.save(".\\model\\save_keras35_3.h5")
+model.save("../data/h5/test_save_keras35_1.h5")
+model.save("..//data//h5/save_keras35_2.h5")
+model.save("..\data\h5/save_keras35_3.h5")
+model.save("..\\data\\h5\\save_keras35_4.h5")
 '''
 
 

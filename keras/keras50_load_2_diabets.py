@@ -1,12 +1,8 @@
-
 import numpy as np
-from sklearn.datasets import load_diabetes
 
-dataset = load_diabetes()
-x= dataset.data
-y= dataset.target
+x = np.load('../data/npy/diabetes_x.npy')
+y = np.load('../data/npy/diabetes_y.npy')
 
-#데이터 전처리
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test= train_test_split(x,y, 
                            shuffle=True, train_size=0.7, random_state=104)
@@ -38,18 +34,18 @@ model.add(Dense(1))
 
 #컴파일 훈련
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-modelpath5 = '../data/modelCheckpoint/k46_5_mnist_{epoch:02d}-{val_loss:.4f}.hdf5'
+modelpath2 = '../data/modelCheckpoint/k50_2_mnist_{epoch:02d}-{val_loss:.4f}.hdf5'
 #02d 정수로 두번째 자리 까지, 4f 실수로 4번째 자리까지
 #따라서 0.01이면 02d: 01, 4f : 0100이된다. k45_mnist_0100.hdf5
-es= EarlyStopping(monitor='val_loss', patience=5)
-cp =ModelCheckpoint(filepath=modelpath5, monitor='val_loss',
+es= EarlyStopping(monitor='val_loss', patience=10)
+cp =ModelCheckpoint(filepath=modelpath2, monitor='val_loss',
                     save_best_only=True, mode='auto')
 #ModelCheckpoint는 최저점이 생길 때마다 filepath(파일형태)로 기록한다.
 #파일형태에 weight 값을 기록하기 위해 사용한다. 최적의 weight(val_loss가장낮음)
-model.compile(loss='mse',
+model.compile(loss='mae',
               optimizer='adam', metrics=['mae'])
 ####loss가 이진 분류일 때는binary_crossentropy(0,1만 추출)
-hist = model.fit(x_train,y_train, epochs=20, batch_size=16, verbose=1,
+hist = model.fit(x_train,y_train, epochs=100, batch_size=16, verbose=1,
                 validation_split=0.2,callbacks=[es, cp])
 
 #4. 평가예측
@@ -87,7 +83,6 @@ plt.subplot(2,1,2)   #2행 1열 중에 2번째라는 뜻
 plt.plot(hist.history['mae'], marker='.', c='red', label='mae')
 plt.plot(hist.history['val_mae'], marker='.', c='blue', label='val_mae')
 plt.grid()
-
 #plt.title('정확도')
 plt.title('mae')
 plt.ylabel('mae')

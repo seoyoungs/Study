@@ -22,7 +22,7 @@ y = dataset[:,-1]
 x=x.reshape(6,4,1)
 
 from tensorflow.keras.models import load_model
-model = load_model("./model/save_keras35.h5")
+model = load_model("../data/h5/test_save_keras35_1.h5")
 
 #요 밑 3줄 넣고 테스트######
 from tensorflow.keras.layers import Dense

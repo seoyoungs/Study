@@ -1,15 +1,17 @@
-from tensorflow.keras.datasets import cifar10
 import numpy as np
 import matplotlib.pyplot as plt
 
-(x_train, y_train), (x_test, y_test) = cifar10.load_data()
-
-#print(x_train.shape, y_train.shape) #(50000, 32, 32, 3) (50000, 1)
-#print(x_test.shape, y_test.shape)   #(10000, 32, 32, 3) (10000, 1)
+x_train = np.load('../data/npy/cifar10_x_train.npy')
+x_test = np.load('../data/npy/cifar10_x_test.npy')
+y_train= np.load('../data/npy/cifar10_y_train.npy')
+y_test =np.load('../data/npy/cifar10_y_test.npy')
 
 x_train= x_train.reshape(x_train.shape[0], -1).astype('float32')/255.
 x_test= x_test.reshape(x_test.shape[0], -1)/255.
 print(x_train.shape)
+
+print(x_test.shape)
+
 #이미지 특성맞춰 숫자 바꾸기 x의 최대가 255이므로 255로 나눈다.
 #이렇게 하면 0~1 사이로 된다.
 #x_test=x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[2],1)
@@ -21,6 +23,7 @@ print(x_train.shape)
 from keras.utils.np_utils import to_categorical
 y_train = to_categorical(y_train) #(50000, 10)
 y_test = to_categorical(y_test)  #(10000, 10)
+print(y_train.shape)
 
 
 #2. 모델 구성
@@ -35,14 +38,13 @@ model.add(Dense(15,activation='relu'))
 model.add(Dense(units=10, activation='softmax'))
 model.summary()
 
-
 #3. 컴파일, 훈련
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-modelpath2 = '../data/modelCheckpoint/k46_2_mnist_{epoch:02d}-{val_loss:.4f}.hdf5'
+modelpath8 = '../data/modelCheckpoint/k51_8_mnist_{epoch:02d}-{val_loss:.4f}.hdf5'
 #02d 정수로 두번째 자리 까지, 4f 실수로 4번째 자리까지
 #따라서 0.01이면 02d: 01, 4f : 0100이된다. k45_mnist_0100.hdf5
 es= EarlyStopping(monitor='val_loss', patience=5)
-cp =ModelCheckpoint(filepath=modelpath2, monitor='val_loss',
+cp =ModelCheckpoint(filepath=modelpath8, monitor='val_loss',
                     save_best_only=True, mode='auto')
 #ModelCheckpoint는 최저점이 생길 때마다 filepath(파일형태)로 기록한다.
 #파일형태에 weight 값을 기록하기 위해 사용한다. 최적의 weight(val_loss가장낮음)

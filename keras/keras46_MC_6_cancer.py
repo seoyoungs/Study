@@ -55,15 +55,16 @@ model.add(Dense(1, activation='sigmoid')) #마지막에만 sigmoid를 준다
 
 #3. 컴파일, 훈련
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-modelpath6 = './modelCheckpoint/k45_mnist_{epoch:02d}-{val_loss:.4f}.hdf5'
+modelpath6 = '../data/modelCheckpoint/k46_6_mnist_{epoch:02d}-{val_loss:.4f}.hdf5'
 #02d 정수로 두번째 자리 까지, 4f 실수로 4번째 자리까지
 #따라서 0.01이면 02d: 01, 4f : 0100이된다. k45_mnist_0100.hdf5
-es= EarlyStopping(monitor='val_loss', patience=5)
-cp =ModelCheckpoint(filepath='modelpath6', monitor='val_loss',
+es= EarlyStopping(monitor='val_loss', patience=10)
+cp =ModelCheckpoint(filepath=modelpath6, monitor='val_loss',
                     save_best_only=True, mode='auto')
 #ModelCheckpoint는 최저점이 생길 때마다 filepath(파일형태)로 기록한다.
 #파일형태에 weight 값을 기록하기 위해 사용한다. 최적의 weight(val_loss가장낮음)
-model.compile(loss='categorical_crossentropy',
+
+model.compile(loss='binary_crossentropy', 
               optimizer='adam', metrics=['acc'])
 ####loss가 이진 분류일 때는binary_crossentropy(0,1만 추출)
 hist = model.fit(x_train,y_train, epochs=20, batch_size=16, verbose=1,

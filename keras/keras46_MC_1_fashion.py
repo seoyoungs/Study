@@ -32,11 +32,11 @@ model.summary()
 
 #3. 컴파일, 훈련
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-modelpath1 = './modelCheckpoint/k45_mnist_{epoch:02d}-{val_loss:.4f}.hdf5'
+modelpath1 = '../data/modelCheckpoint/k46_1_mnist_{epoch:02d}-{val_loss:.4f}.hdf5'
 #02d 정수로 두번째 자리 까지, 4f 실수로 4번째 자리까지
 #따라서 0.01이면 02d: 01, 4f : 0100이된다. k45_mnist_0100.hdf5
 es= EarlyStopping(monitor='val_loss', patience=5)
-cp =ModelCheckpoint(filepath='modelpath1', monitor='val_loss',
+cp =ModelCheckpoint(filepath=modelpath1, monitor='val_loss',
                     save_best_only=True, mode='auto')
 #ModelCheckpoint는 최저점이 생길 때마다 filepath(파일형태)로 기록한다.
 #파일형태에 weight 값을 기록하기 위해 사용한다. 최적의 weight(val_loss가장낮음)

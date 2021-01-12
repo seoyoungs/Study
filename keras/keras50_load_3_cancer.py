@@ -1,63 +1,63 @@
-from tensorflow.keras.datasets import cifar10
 import numpy as np
-import matplotlib.pyplot as plt
 
-(x_train, y_train), (x_test, y_test) = cifar10.load_data()
-
-#print(x_train.shape, y_train.shape) #(50000, 32, 32, 3) (50000, 1)
-#print(x_test.shape, y_test.shape)   #(10000, 32, 32, 3) (10000, 1)
-
-x_train= x_train.reshape(x_train.shape[0], -1).astype('float32')/255.
-x_test= x_test.reshape(x_test.shape[0], -1)/255.
-print(x_train.shape)
-#이미지 특성맞춰 숫자 바꾸기 x의 최대가 255이므로 255로 나눈다.
-#이렇게 하면 0~1 사이로 된다.
-#x_test=x_test.reshape(x_test.shape[0], x_test.shape[1], x_test.shape[2],1)
-#x_train=x_train.reshape(x_train.shape[0], x_train.shape[1], x_train.shape[2],1)
-###이미 전처리 이걸로 해서 minmax안써도 됨
+x = np.load('../data/npy/cancer_x.npy')
+y = np.load('../data/npy/cancer_y.npy')
 
 
-#다중분류 y원핫코딩
-from keras.utils.np_utils import to_categorical
-y_train = to_categorical(y_train) #(50000, 10)
-y_test = to_categorical(y_test)  #(10000, 10)
+# 전처리 알아서/ minmax, train_test_split
+from sklearn.model_selection import train_test_split
+x_train, x_test, y_train, y_test= train_test_split(x,y, 
+                           shuffle=True, train_size=0.8, random_state=66)
 
+from sklearn.preprocessing import MinMaxScaler
+scaler =MinMaxScaler()
+scaler.fit(x_train)
+x_train=scaler.transform(x_train)
+x_test=scaler.transform(x_test)
 
-#2. 모델 구성
-#layer문을 for문으로 써도 된다.
+#print(x_train.shape) #(455, 30)
+#print(x_test.shape) #(114, 30)
+x_train=x_train.reshape(455,30,1,1)
+x_test=x_test.reshape(114,30,1,1)
+
+#2. 모델
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, LSTM, Dropout
-model=Sequential()
-model.add(Dense(units=12, activation='relu', input_shape=x_train.shape[1:]))
-model.add(Dense(20,activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(15,activation='relu'))
-model.add(Dense(units=10, activation='softmax'))
-model.summary()
+from tensorflow.keras.layers import Dense, MaxPooling2D, Conv2D, Flatten
 
+model=Sequential()
+model.add(Conv2D(filters=50, kernel_size=(1,1), 
+                padding='same', strides=(1,1), input_shape=(30,1,1)))
+model.add(MaxPooling2D(pool_size=1))
+model.add(Dense(4, activation='relu'))
+model.add(Flatten())
+model.add(Dense(11))
+model.add(Dense(11))
+model.add(Dense(3))
+model.add(Dense(1, activation='sigmoid')) #마지막에만 sigmoid를 준다
 
 #3. 컴파일, 훈련
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-modelpath2 = '../data/modelCheckpoint/k46_2_mnist_{epoch:02d}-{val_loss:.4f}.hdf5'
+modelpath3 = '../data/modelCheckpoint/k50_3_mnist_{epoch:02d}-{val_loss:.4f}.hdf5'
 #02d 정수로 두번째 자리 까지, 4f 실수로 4번째 자리까지
 #따라서 0.01이면 02d: 01, 4f : 0100이된다. k45_mnist_0100.hdf5
 es= EarlyStopping(monitor='val_loss', patience=5)
-cp =ModelCheckpoint(filepath=modelpath2, monitor='val_loss',
+cp =ModelCheckpoint(filepath=modelpath3, monitor='val_loss',
                     save_best_only=True, mode='auto')
 #ModelCheckpoint는 최저점이 생길 때마다 filepath(파일형태)로 기록한다.
 #파일형태에 weight 값을 기록하기 위해 사용한다. 최적의 weight(val_loss가장낮음)
-model.compile(loss='categorical_crossentropy',
+model.compile(loss='mae',
               optimizer='adam', metrics=['acc'])
 ####loss가 이진 분류일 때는binary_crossentropy(0,1만 추출)
 hist = model.fit(x_train,y_train, epochs=20, batch_size=16, verbose=1,
                  validation_split=0.2,callbacks=[es, cp])
 
-#4. 평가 훈련
-loss=model.evaluate(x_test,y_test, batch_size=16)
-print('loss :', loss)
-y_pred = model.predict(x_test[:10])
-print('y_pred: ', y_pred.argmax(axis=1))
-print('y_test: ', y_test[:10].argmax(axis=1))
+#4. 평가 ,예측
+loss=model.evaluate(x_test,y_test, batch_size=10)
+print('loss:', loss)  #loss, accurac 값 추출
+y_pred=model.predict(x_test[-5:-1])
+print(np.argmax(y_pred, axis=1))
+print(y_pred) # y_pred로 코딩한 값
+print(y_test[-5:-1]) #원래 기존 y값
 
 ####시각화
 import matplotlib.pyplot as plt

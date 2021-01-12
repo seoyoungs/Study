@@ -54,11 +54,11 @@ model.add(Dense(10, activation='softmax')) #y값 3개이다(0,1,2)
 
 #3. 컴파일, 훈련
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
-modelpath = './modelCheckpoint/k45_mnist_{epoch:02d}-{val_loss:.4f}.hdf5'
+modelpath = '../data/modelCheckpoint/k47_mnist_{epoch:02d}-{val_loss:.4f}.hdf5'
 #02d 정수로 두번째 자리 까지, 4f 실수로 4번째 자리까지
 #따라서 0.01이면 02d: 01, 4f : 0100이된다. k45_mnist_0100.hdf5
 es= EarlyStopping(monitor='val_loss', patience=5)
-cp =ModelCheckpoint(filepath='modelpath', monitor='val_loss',
+cp =ModelCheckpoint(filepath=modelpath, monitor='val_loss',
                     save_best_only=True, mode='auto')
 tb=TensorBoard(log_dir='./graph', histogram_freq=0, 
                write_graph=True, write_images=True)
