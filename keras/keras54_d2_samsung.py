@@ -1,6 +1,5 @@
 import numpy as np
 
-#1 데이터 주고
 
 x = np_load = np.load('../data/npy/x_data.npy')
 y = np_load = np.load('../data/npy/y_data.npy')
