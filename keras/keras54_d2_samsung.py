@@ -52,17 +52,13 @@ model.fit(x_train, y_train, epochs=200, batch_size=20, validation_batch_size=0.3
 
 loss, mae = model.evaluate(x_test, y_test, batch_size=20)
 print('loss, mae: ', loss, mae)
-#model.save('../data/h5/samsung_model.h5')
-
 
 
 x_predict = np.array([[89800,91200,89100,34161101,3073003]])
 x_predict = scaler.transform(x_predict)
-x_predict = x_predict.reshape(x_predict.shape[0],x_predict.shape[1],1) # 3차원 
+x_predict = x_predict.reshape(x_predict.shape[0],x_predict.shape[1],1) 
 
 y_predict = model.predict(x_predict)
-
-#[89800	91200	89100 -1781416 -2190214]
 
 print(y_predict)
 
