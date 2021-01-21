@@ -18,11 +18,6 @@ def quantile_loss(y_true, y_pred):
     #이거를(하나하나 9개 나오게 커스텀해보기) 그거를 submission에 제출
     # 여기서 0.5는 중위값으로 mae, mse랑 비슷
 
-def quantile_loss(q, y_true, y_pred):
-      err = (y_true - y_pred)
-      return k.mean(k.maximum(q*err, (q-1)*err), axis=-1)
-
-quantiles = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9] #quantiles이 함수밖
 
 # 1. 데이터
 x = np.array([1,2,3,4,5,6,7,8]).astype('float32') 
@@ -38,8 +33,6 @@ model.add(Dense(1))
 
 # 3. 컴파일
 model.compile(loss= quantile_loss, optimizer='adam')
-model.compile(loss = lambda y_true, y_pred: quantile_loss(quantiles, y_true, y_pred), optimizer='adam')
-#y_true, y_pred 인풋값, quantiles[0] 이면 0.1 한번 돌아감 'for문' 으로 돌리기
 model.fit(x, y, batch_size=1, epochs=30)
 
 # 4. 평가
@@ -52,8 +45,4 @@ custom_mse
 
 quantile_loss
 0.007723234593868256
-
-quantile_loss ==> 0.1
-0.06900101155042648
 '''
-

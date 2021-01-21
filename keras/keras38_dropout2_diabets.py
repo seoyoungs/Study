@@ -23,8 +23,8 @@ from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test= train_test_split(x,y, 
                            shuffle=True, train_size=0.3, random_state=66)
 
-from sklearn.preprocessing import MinMaxScaler
-scaler =MinMaxScaler()
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+scaler =StandardScaler()
 scaler.fit(x_train)
 x_train=scaler.transform(x_train)
 x_test=scaler.transform(x_test)
@@ -103,4 +103,9 @@ dropout적용 후
 loss, mae :  2922.3046875 43.70711135864258
 RMSE :  54.05834607922155
 R2 : 0.49570987019044643
+
+StandardScaler --> 더 떨어짐
+loss, mae :  3069.0283203125 45.43492889404297
+RMSE :  55.39881194238311
+R2 : 0.47039038414313894
 '''

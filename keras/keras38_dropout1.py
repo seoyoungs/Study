@@ -24,7 +24,7 @@ x_train, x_test, y_train, y_test =train_test_split(x, y, shuffle=True,
 x_train, x_val, y_train, y_val = train_test_split(x_train,y_train,
                                                   train_size=0.8, shuffle=True)
 #부분만 전처리 해주기
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 scaler = MinMaxScaler()
 scaler.fit(x_train)
 x_train= scaler.transform(x_train)
@@ -137,4 +137,10 @@ loss: 11.903762817382812
 mae : 2.515063762664795
 RMSE :  3.450183053968668
 R2 :  0.8575814216885113
+
+StandardScaler --> 적용 후(더떨어짐)
+loss: 140.54925537109375
+mae : 8.601016998291016
+RMSE :  11.855346746417233
+R2 :  -0.6815542856534655
 '''

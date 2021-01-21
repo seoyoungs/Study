@@ -45,7 +45,7 @@ model.add(Dropout(0.2))
 model.add(Dense(15,activation='relu'))
 model.add(Flatten())
 model.add(Dense(3072,activation='relu')) # 32*32*3
-model.add(Reshape((32,32,3)))
+model.add(Reshape((32,32,3))) #newshape는 정수 또는 튜플 그래서 괄호()추가
 model.add(Dense(20,activation='relu'))
 model.add(Dense(3))
 model.summary()
