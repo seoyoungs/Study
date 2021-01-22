@@ -1,6 +1,3 @@
-#####다시 해보자구~~~!!도전!!! >o< ^o^
-###T-Td 함수 추가해보기(GHI함수 빼기)
-
 import pandas as pd
 import numpy as np
 import os
@@ -43,9 +40,9 @@ def preprocess_data(data, is_train=True):
     dp = ( c * gamma) / (b - gamma)
     data.insert(1,'Td',dp)
     data.insert(1,'T-Td',data['T']-data['Td'])
-    # data.insert(1,'GHI',data['DNI']+data['DHI'])
+    data.insert(1,'GHI',data['DNI']+data['DHI'])
     temp = data.copy()
-    temp = temp[['Hour','TARGET','T-Td','DHI','DNI','WS','RH','T']]
+    temp = temp[['Hour','TARGET','GHI','DHI','DNI','WS','RH','T']]
 
     if is_train==True:          
         temp['Target1'] = temp['TARGET'].shift(-48).fillna(method='ffill')   # 다음날의 Target
@@ -54,7 +51,7 @@ def preprocess_data(data, is_train=True):
         return temp.iloc[:-96]  # 뒤에서 이틀은 뺀다. (예측하고자 하는 날짜이기 때문)
 
     elif is_train == False:
-        temp = temp[['Hour','TARGET','T-Td','DHI','DNI','WS','RH','T']]
+        temp = temp[['Hour','TARGET','GHI','DHI','DNI','WS','RH','T']]
 
         return temp.iloc[-48:, :]
 
@@ -182,5 +179,10 @@ num_temp2 = df_temp2.to_numpy()
 submission.loc[submission.id.str.contains("Day8"), "q_0.1":] = num_temp2
 
 ##??????????????근데 이 지표가 잘됐다는거 평가하는 방법있을까?????????  로스밖에 없어
-submission.to_csv('C:/data/dacon_data/sub_0122_1_1.csv', index = False)
-##제출후 등수 135  -- 1.94653
+submission.to_csv('C:/data/dacon_data/sub_0122_1.csv', index = False)
+
+
+'''
+2.1096336585	요거는 별로.. GHI 연구해보장 ㅠㅠ
+'''
+
