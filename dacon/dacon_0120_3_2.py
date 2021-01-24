@@ -1,4 +1,5 @@
-
+#https://github.com/skanwngud/skanwngud/blob/main/dacon/dacon_model_real.py
+### 유주형님 깃허브 참고  ----> 속도 빠름
 
 import numpy as np
 import pandas as pd
