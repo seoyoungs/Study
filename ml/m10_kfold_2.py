@@ -1,15 +1,18 @@
 ##  머신러닝으로 해보기
 ##keras22_iris사용
+### m04_iris 복붙
+# KFold, cross_val_score (교차검증을 해 KFold구한다.)
 
 import numpy as np
 from sklearn.datasets import load_iris
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, KFold, cross_val_score 
 from sklearn.metrics import accuracy_score
+
 from sklearn.svm import LinearSVC, SVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier#트리를 앙상블
+from sklearn.ensemble import RandomForestClassifier
 
 
 dataset = load_iris() #x,y=load_iris(return_X_y=True)와 같다
@@ -18,38 +21,19 @@ y= dataset.target
 #print(dataset.DESCR)
 #print(dataset.feature_names)
 
-#print(x.shape) #(150,4)
-#print(y.shape) #y가 3종류(150,)---> 바뀔거다
-#print(x[:5])
+x_train, x_test, y_train, y_test = train_test_split(
+    x,y,random_state=77, shuffle=True, train_size=0.8
+) #이렇게 하면 train에 있는것을 kflod에서 5로 나누게 된다.(val이 생성된 셈이다.)
 
-# from sklearn.preprocessing import OneHotEncoder 
-# #sklearn 데이터 다중분류 경우 이거 사용
-# encoder = OneHotEncoder()
-# y = encoder.fit_transform(y.reshape(-1,1)).toarray()
+kfold = KFold(n_splits=5, shuffle=True) #데이터를 5씩 잘라서 model과 연결
 
-# # 전처리 알아서/ minmax, train_test_split
-# from sklearn.model_selection import train_test_split
-# x_train, x_test, y_train, y_test= train_test_split(x,y, 
-#                      shuffle=True, train_size=0.8, random_state=66)
+# 2,3. 모델링과 훈련
 
-# from sklearn.preprocessing import MinMaxScaler
-# scaler =MinMaxScaler()
-# scaler.fit(x_train)
-# x_train=scaler.transform(x_train)
-# x_test=scaler.transform(x_test)
+model = LinearSVC() #머신러닝은 이거 하나면 된다.
+scores = cross_val_score(model, x, y, cv = kfold) #fit이랑 model이랑 다 포함되있는것(단, validation은 안 나눠짐)
+print('scores :', scores)
 
-#2. 모델
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
-
-# model = Sequential()
-# model.add(Dense(10, activation='relu', input_shape=(4,)))
-# model.add(Dense(3))
-# model.add(Dense(3))
-# model.add(Dense(3, activation='softmax'))
-
-model = DecisionTreeClassifier() #머신러닝은 이거 하나면 된다.
-
+'''
 #3. 컴파일, 훈련
 #                    #mean_squared_error
 # model.compile(loss='categorical_crossentropy', 
@@ -58,7 +42,6 @@ model = DecisionTreeClassifier() #머신러닝은 이거 하나면 된다.
 # model.fit(x_train,y_train, epochs=150, 
 #            validation_split=0.2, batch_size=10,verbose=0)
 model.fit(x, y)
-
 #4. 평가 ,예측
 # result =model.evaluate(x_test,y_test, batch_size=10)
 result = model.score(x, y) #evaluate 대신 score사용
@@ -66,26 +49,23 @@ print(result)  #loss, accurac 값 추출
 y_pred=model.predict(x[-5:-1])
 print(y_pred) # y_pred로 코딩한 값
 print(y[-5:-1]) 
+'''
 
 '''
 model =LinearSVC()일 때
 0.9666666666666667
-
 model =SVC()일 때
 0.9733333333333334
-
 model =KNeighborsClassifier()일 때
 0.9666666666666667
-
 model =DecisionTreeClassifier()일 때
 1.0
-
 model = DecisionTreeClassifier()일 때
 1.0
-
 ----------------
 tensorflow
 keras33과 비교
 0.9666666388511658
+kflod 일 때
+scores : [0.96666667 1.         0.96666667 0.86666667 1.        ]
 '''
-

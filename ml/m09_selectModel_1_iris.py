@@ -13,7 +13,7 @@ y= dataset.target
 x_train, x_test, y_train, y_test = train_test_split(x,y,
                       test_size = 0.2, random_state=44)
 
-allAlgorithms = all_estimators(type_filter='classifier')
+allAlgorithms = all_estimators(type_filter='classifier') #$all_estimators 추정치
 
 for (name, algorithm) in allAlgorithms:  #allAlgorithms에서 인자 2개(name, algorithm)
     try:
