@@ -1,0 +1,21 @@
+----0128수업----
+train, test, validation으로 나눴을 때 문제점
+
+train만 훈련을 시키면 나머지 val과 test는 버려지게 되서 아깝다.
+근데 전체로 해 훈련을 시키면 과적합 걸리거나 시간이 오래걸린다.
+
+그래서 전체를 train, test를 나눌때 다양한 방법으로 나눠 여러번 훈련시킨다.
+그 중에서 가장 신뢰도 잘 나온것을 골라서 사용한다.
+
+GridSearchCV : 그리드를 이용한 복수 하이퍼 파라미터 최적화
+
+-----0129수업----
+Pipeline
+Pipeline([('scaler', MinMaxScaler())
+이처럼 데이터를 모델링 과정에서 train만 따로 해준다. --> Pipeline
+그러면 train범위에 맞춰 알아서 스케일링 해준다
+train만 fit, 나머지는 transform만 해준다.
+
+make_pipeline
+이름을 자동으로 생성 한다는 것 입니다.-> 이거는 스케일링 따로 안해줌
+
