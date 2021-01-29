@@ -1,20 +1,22 @@
 # 실습
-# ## feature중 0인것 없애기 
-# DecisionTree모델로 돌려서 acc확인
+# ## feature중 25% 미만 제거
+# RandomForest모델로 돌려서 acc확인
 
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.datasets import load_iris, load_breast_cancer
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_iris, load_breast_cancer, load_wine
 from sklearn.model_selection import train_test_split
 import pandas as pd
 
 #1. 데이터
-dataset = load_iris()
+dataset = load_wine()
 x_train, x_test, y_train, y_test = train_test_split(
     dataset.data, dataset.target, train_size = 0.8, random_state=44
 )
 
 #2. 모델
-model = DecisionTreeClassifier(max_depth = 4)
+# model = DecisionTreeClassifier(max_depth = 4)
+model = RandomForestClassifier() # 데이터 골고루 분포된다
 
 #3. 훈련
 model.fit(x_train, y_train)
@@ -41,25 +43,27 @@ def plot_feature_importances_dataset(model):
 plot_feature_importances_dataset(model)
 plt.show()
 
-## 0인 컬럼 제거
+### 하위 25% 칼럼 제거하기
 # print(model.feature_importances_) 
+df = pd.DataFrame(dataset.data, )
 original = model.feature_importances_
 data_new =[]  # 새로운 데이터형성 dataset --> data_new
 feature_names = []  # 컬럼 특징 정의 feature_names
+a = np.percentile(model.feature_importances_, q=25) # percentile(백분위)로 미리 정의
 
 # for문 생성-> 0제거하는 것
 for i in range(len(original)):
-    if original[i] !=0: # x != y	x와 y가 같지 않다, 즉, i와 0과 같지 않다
+    if original[i] > a: # 하위 25% 값보다 큰 것만 추출
         data_new.append(dataset.data[:,i])
         feature_names.append(dataset.feature_names[i])
 
 data_new = np.array(data_new)
 data_new = np.transpose(data_new)
-x2_train,x2_test,y2_train,y2_test = train_test_split(data_new,dataset.target,
+x_train,x_test,y_train,y_test = train_test_split(data_new,dataset.target,
                                                  train_size = 0.8, random_state = 33)
 
 #2. 모델
-model = DecisionTreeClassifier(max_depth = 4)
+model = RandomForestClassifier(max_depth = 4)
 
 #3. 훈련
 model.fit(x_train, y_train)
@@ -84,14 +88,10 @@ plt.show()
 
 '''
 DecisionTreeClassifier
-[0.00787229 0.         0.4305627  0.56156501]
-acc:  0.9333333333333333
-[0.02899179 0.0539027  0.91710551]
-acc :  0.8666666666666667             # 칼럼 지운 후 
+acc:  0.8888888888888888
+acc :  0.75  
 
-GradientBoostingClassifier
-[0.00787229 0.         0.4305627  0.56156501]
-acc:  0.9333333333333333
-[0.02899179 0.0539027  0.91710551]
-acc :  0.8666666666666667             # 칼럼 지운 후 
+RandomForestClassifier
+acc:  0.9722222222222222
+acc :  1.0
 '''
