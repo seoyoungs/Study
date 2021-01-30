@@ -46,7 +46,7 @@ parameters = [
 model = GridSearchCV(SVC(), parameters, cv=kflod) #데이터를 모두 감싸고 90번 돈다
 score = cross_val_score(model, x_train, y_train, cv= kflod) #GridSearchCV에서 나온값, 또 5번해서 최적의 값
 # 그럼 총 25번
-
+print(score.shape)
 print('교차검증점수 : ', score)
 
 
