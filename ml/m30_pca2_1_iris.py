@@ -19,7 +19,7 @@ x_train, x_test, y_train, y_test = train_test_split(
 )
 
 pca = PCA(n_components=3) # 파라미터 주성분 개수
-x2 = pca.fit_transform(x) #np.transformㅘ 같음
+x2 = pca.fit_transform(x) #np.transform과 같음
 # print(x2.shape) #(442, 8) 이렇게 컬럼 재구성
 
 pca_EVR = pca.explained_variance_ratio_ # PCA가 설명하는 분산의 비율
