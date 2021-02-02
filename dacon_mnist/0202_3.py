@@ -113,14 +113,16 @@ for train_index, valid_index in skf.split(train2, t_d):
     model = modeling()
     mc = ModelCheckpoint('C:/data/modelCheckpoint/0202_3_best_mc.h5', save_best_only=True, verbose=1)
     model.compile(loss = 'categorical_crossentropy', optimizer=Adam(lr=0.002,epsilon=None),metrics=['acc']) # y의 acc가 목적
-    learning_history = model.fit_generator(train_generator,epochs=epochs, validation_data=valid_generator, callbacks=[ea,mc,re])
+    img_fit = model.fit_generator(train_generator,epochs=epochs, validation_data=valid_generator, callbacks=[ea,mc,re])
     
     # predict
     # model.load_weights('C:/data/modelCheckpoint/0202_3_best_mc.h5')
     result += model.predict_generator(test_generator,verbose=True)/40 #a += b는 a= a+b
+    # predict_generator 예측 결과는 클래스별 확률 벡터로 출력
+    print('result:', result)
 
     # save val_loss
-    hist = pd.DataFrame(learning_history.history)
+    hist = pd.DataFrame(img_fit.history)
     val_loss_min.append(hist['val_loss'].min())
     nth += 1
     print(nth, 'set complete!!') # n_splits 다 돌았는지 확인
