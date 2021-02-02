@@ -1,7 +1,6 @@
 ## y 값은 digit 지금 y 값이 주어지지 않음
 ## 따로 y값 나누는 거 아니다
 ### pca 안한게 10배는 잘나온다
-# 베이스 라인 3등 참조
 
 import numpy as np
 import pandas as pd
