@@ -111,7 +111,7 @@ for train_index, valid_index in skf.split(train2, t_d):
     
     model = modeling()
     mc = ModelCheckpoint('C:/data/modelCheckpoint/0202_3_best_mc.h5', save_best_only=True, verbose=1)
-    model.compile(loss = 'categorical_crossentropy', optimizer=Adam(lr=0.002,epsilon=None),metrics=['acc']) # y의 acc가 목적
+    model.compile(loss = 'sparse_categorical_crossentropy', optimizer=Adam(lr=0.002,epsilon=None),metrics=['acc']) # y의 acc가 목적
     img_fit = model.fit_generator(train_generator,epochs=epochs, validation_data=valid_generator, callbacks=[ea,mc,re])
     
     # predict
