@@ -37,10 +37,10 @@ print("이 데이터는 "+str(len(df[df["host_name"]=="None"]))
       +" 개의 이름이 없는 "+ "호스트가 있다.")
 print("Dataframe shape: "+str(df.shape))
 
-'''
+
 (len(df[df["host_id"]==30985759]) == df[df["id"]==36485609]["calculated_host_listings_count"]).tolist()
 df[(df["calculated_host_listings_count"]>1)][["host_id","calculated_host_listings_count"]].sort_values(by=['host_id']).head(10)
-'''
+
 
 # 히스토그램으로 호스트들의 최소숙박일 minimum_nights
 df_old=df.copy()
@@ -132,40 +132,41 @@ ax6 = fig.add_subplot(3, 3, 6)
 ax7 = fig.add_subplot(3, 3, 7)
 ax8 = fig.add_subplot(3, 3, 8)
 
-ax1.hist(df[numeric_vars[0]], bins=30)
+ax1.hist(df[numeric_vars[0]], bins=90)
 ax1.set_ylabel("Frequency")
 ax1.set_title(numeric_vars[0])
 
-ax2.hist(df[numeric_vars[1]], bins=30)
+ax2.hist(df[numeric_vars[1]], bins=90)
 ax2.set_ylabel("Frequency")
 ax2.set_title(numeric_vars[1])
 
-ax3.hist(np.log((df[numeric_vars[2]])), bins=30)
+ax3.hist(np.log((df[numeric_vars[2]])), bins=90)
 ax3.set_ylabel("Frequency")
 ax3.set_title('log(price)')
 
-ax4.hist(np.log((df[numeric_vars[3]])), bins=31)
+ax4.hist(np.log((df[numeric_vars[3]])), bins=90)
 ax4.set_ylabel("Frequency")
 ax4.set_title("log(minimum nights + 1)")
 
-ax5.hist(np.log(df[numeric_vars[4]]+1), bins=30)
+ax5.hist(np.log(df[numeric_vars[4]]+1), bins=90)
 ax5.set_ylabel("Frequency")
 ax5.set_title("log(number of reviews + 1)")
 
-ax6.hist(np.log(df[numeric_vars[5]]+1), bins=30)
+ax6.hist(np.log(df[numeric_vars[5]]+1), bins=90)
 ax6.set_ylabel("Frequency")
 ax6.set_title("log(last review + 1)")
 
-ax7.hist(np.log(df[numeric_vars[6]]+1), bins=30)
+ax7.hist(np.log(df[numeric_vars[6]]+1), bins=90)
 ax7.set_ylabel("Frequency")
 ax7.set_title("log(calculated host listing count) + 1)")
 
-ax8.hist(np.log(df[numeric_vars[7]]+1), bins=30)
+ax8.hist(np.log(df[numeric_vars[7]]+1), bins=90)
 ax8.set_ylabel("Frequency")
 ax8.set_title("log(availability 365 + 1)")
 
 plt.show()
 '''
+
 for num in numeric_vars[3:]:#경도, 위도 빼고
     df["log_("+num+" +1)"] = np.log(df[num]+1)
 df["log_price"] = np.log(df.price)
@@ -345,33 +346,6 @@ df = pd.concat([df, pd.get_dummies(df["room_type"], drop_first=False)], axis=1)
 df.drop(['room_type'],axis=1, inplace=True)
 print(df.shape)
 
-'''
-# 이거 빼기
-y = df[(df["SoHo"]==1) & (df["Private room"]==1)].latitude
-x = df[(df["SoHo"]==1) & (df["Private room"]==1)].longitude
-p = df[(df["SoHo"]==1) & (df["Private room"]==1)].log_price
-plt.scatter(x,y,c=p,cmap='viridis')
-plt.xlim(-74.01,-73.995)
-plt.ylim(40.718,40.73)
-plt.colorbar()
-plt.show()
-'''
-'''
-# 이것도 빼자
-# ====================== 리뷰개수 =============================
-print(df.shape)
-
-# 이것도 안써
-plt.hist(df["last_review"], bins=100)
-plt.ylabel("Frequency")
-plt.xlabel("Days since last review")
-plt.ylabel("Frequency")
-plt.title("Histogram of days since last review")
-plt.show()
-
-sns.boxplot(x="last_review", y=df.log_price, data=df)
-plt.show()
-'''
 import datetime as dt
 #convert object to datetime:
 df["last_review"] = pd.to_datetime(df["last_review"])
@@ -406,7 +380,8 @@ print(last_review_price)
 #convert last review to dummies
 df = pd.concat([df, pd.get_dummies(df["last_review"], drop_first=False)], axis=1)
 df.drop(["last_review"],axis=1, inplace=True)
-
+'''
+#한 열에서 특정 단어 추출하기
 #import necessary libraries
 import nltk
 import os
@@ -422,7 +397,6 @@ nltk.download('wordnet')
 nltk.download('maxent_ne_chunker')
 nltk.download('words')
 
-#initiate stopwords
 a = set(stopwords.words('english'))
 #obtain text
 text = df["name"].iloc[10]
@@ -486,18 +460,54 @@ words_private = private.iloc[1:,1]
 words_home = home.iloc[1:,1] 
 words_shared = shared.iloc[1:,1] 
 
-#plot the results
-plt.plot(words_shared.reset_index()[1], label="shared")
-plt.plot(words_private.reset_index()[1], label ="private")
-plt.plot(words_home.reset_index()[1], label="Entire home/apt")
-plt.xlim(0,200)
-plt.ylabel("WordFrequency")
-plt.xlabel("Word position on the list")
-plt.legend()
-plt.show()
+home_new = home.reset_index().iloc[1:50,1:3].copy()
+private_new = private.reset_index().iloc[1:50,1:3].copy()
+shared_new = shared.reset_index().iloc[1:50,1:3].copy()
 
+all_words = pd.concat([home_new, private_new, shared_new], axis=1, sort=False)
 
+print("Numer of shared room listings: "+str(len(df[df["Shared room"]==1])))
+print("Numer of private room listings: "+str(len(df[df["Private room"]==1])))
+print("Numer of entire home/apt listings: "+str(len(df[df["Entire home/apt"]==1])))
+'''
+# ======================== 모델링 ============================
+#import modules:
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import xgboost as xgb
 
+from sklearn.tree            import DecisionTreeRegressor
+from sklearn.neural_network  import MLPRegressor
+from sklearn.linear_model    import LinearRegression
+from sklearn.ensemble        import RandomForestRegressor
+from sklearn.model_selection import cross_val_score, KFold
+from sklearn.model_selection import train_test_split
+from sklearn.metrics         import mean_squared_error
+from sklearn.metrics         import r2_score
+
+target = df['log_price'].copy()
+#drop unnecessary columns
+df = df.drop(['log_price'], axis=1).copy()
+#strip the target column from input columns and put it in front
+df = pd.concat([target, df], axis=1).copy()
+#select input variable columns
+nums = df.iloc[:,1:]
+print(df.head())
+
+y= target
+x = nums
+X_train, X_test, y_train, y_test = train_test_split(x,y, test_size=0.20, random_state=1)
+
+rmse_dt=[]
+dt = DecisionTreeRegressor()
+kf = KFold(5, shuffle = True, random_state=1)
+mse = cross_val_score(dt ,x,y, scoring = "neg_mean_squared_error", cv=kf) 
+rmse = np.sqrt(np.absolute(mse))
+avg_rmse = np.sum(rmse)/len(rmse)
+rmse_dt.append(avg_rmse)
+print("Root mean square error: " +str(round(rmse_dt[0],2)))
 
 
 
