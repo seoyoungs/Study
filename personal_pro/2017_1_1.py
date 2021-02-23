@@ -7,32 +7,32 @@ import matplotlib.pyplot as plt
 import random as rd
 
 df1 = pd.read_csv("C:/data/personal/university/2019_12_listing_after_extraction.csv", low_memory = False)
-df2 = pd.read_csv("C:/data/personal/university/2020_10_listing_after_extraction.csv", low_memory = False)
-df1ch = pd.read_csv("C:/data/personal/university/2019_12_changed_compared_with_2020_10.csv", low_memory = False)
-df2ch = pd.read_csv("C:/data/personal/university/2020_10_changed_compared_with_2019_12.csv", low_memory = False)
-dfad = pd.read_csv("C:/data/personal/university/2020_10_added_compared_with_2019_12.csv", low_memory = False)
-dfdr = pd.read_csv("C:/data/personal/university/2019_12_dropped_compared_with_2020_10.csv", low_memory = False)
+# df2 = pd.read_csv("C:/data/personal/university/2020_10_listing_after_extraction.csv", low_memory = False)
+# df1ch = pd.read_csv("C:/data/personal/university/2019_12_changed_compared_with_2020_10.csv", low_memory = False)
+# df2ch = pd.read_csv("C:/data/personal/university/2020_10_changed_compared_with_2019_12.csv", low_memory = False)
+# dfad = pd.read_csv("C:/data/personal/university/2020_10_added_compared_with_2019_12.csv", low_memory = False)
+# dfdr = pd.read_csv("C:/data/personal/university/2019_12_dropped_compared_with_2020_10.csv", low_memory = False)
 
 # print(df1['price'].head(5))
 # replace() function
 df1['price'] = df1['price'].str.replace(',', '')
 df1['price'] = df1['price'].str.replace('$', '')
 df1['price'] = df1['price'].astype(float)
-df2['price'] = df2['price'].str.replace(',', '')
-df2['price'] = df2['price'].str.replace('$', '')
-df2['price'] = df2['price'].astype(float)
-df1ch['price'] = df1ch['price'].str.replace(',', '')
-df1ch['price'] = df1ch['price'].str.replace('$', '')
-df1ch['price'] = df1ch['price'].astype(float)
-df2ch['price'] = df2ch['price'].str.replace(',', '')
-df2ch['price'] = df2ch['price'].str.replace('$', '')
-df2ch['price'] = df2ch['price'].astype(float)
-dfad['price'] = dfad['price'].str.replace(',', '')
-dfad['price'] = dfad['price'].str.replace('$', '')
-dfad['price'] = dfad['price'].astype(float)
-dfdr['price'] = dfdr['price'].str.replace(',', '')
-dfdr['price'] = dfdr['price'].str.replace('$', '')
-dfdr['price'] = dfdr['price'].astype(float)
+# df2['price'] = df2['price'].str.replace(',', '')
+# df2['price'] = df2['price'].str.replace('$', '')
+# df2['price'] = df2['price'].astype(float)
+# df1ch['price'] = df1ch['price'].str.replace(',', '')
+# df1ch['price'] = df1ch['price'].str.replace('$', '')
+# df1ch['price'] = df1ch['price'].astype(float)
+# df2ch['price'] = df2ch['price'].str.replace(',', '')
+# df2ch['price'] = df2ch['price'].str.replace('$', '')
+# df2ch['price'] = df2ch['price'].astype(float)
+# dfad['price'] = dfad['price'].str.replace(',', '')
+# dfad['price'] = dfad['price'].str.replace('$', '')
+# dfad['price'] = dfad['price'].astype(float)
+# dfdr['price'] = dfdr['price'].str.replace(',', '')
+# dfdr['price'] = dfdr['price'].str.replace('$', '')
+# dfdr['price'] = dfdr['price'].astype(float)
 
 # info() function
 # df1.info()
@@ -47,25 +47,25 @@ df1 = df1.dropna(subset=['name','host_id','host_name','neighbourhood_cleansed',
   'neighbourhood_group_cleansed','latitude','longitude','room_type',
   'accommodates','amenities','price','minimum_nights','availability_365',
    'number_of_reviews','first_review','reviews_per_month'])
-df2 = df2.dropna(subset=['name','host_id','host_name','neighbourhood_cleansed',
-  'neighbourhood_group_cleansed','latitude','longitude','room_type','accommodates',
-  'amenities','price','minimum_nights','availability_365','number_of_reviews','first_review','reviews_per_month'])
-df1ch = df1ch.dropna(subset=['name','host_id','host_name','neighbourhood_cleansed',
-  'neighbourhood_group_cleansed','latitude','longitude','room_type','accommodates',
-  'amenities','price','minimum_nights','availability_365','number_of_reviews',
-  'first_review','reviews_per_month'])
-df2ch = df2ch.dropna(subset=['name','host_id','host_name','neighbourhood_cleansed',
-  'neighbourhood_group_cleansed','latitude','longitude','room_type','accommodates',
-  'amenities','price','minimum_nights','availability_365','number_of_reviews',
-  'first_review','reviews_per_month'])
-dfad = dfad.dropna(subset=['name','host_id','host_name','neighbourhood_cleansed',
-  'neighbourhood_group_cleansed','latitude','longitude','room_type','accommodates',
-  'amenities','price','minimum_nights','availability_365','number_of_reviews',
-  'first_review','reviews_per_month'])
-dfdr = dfdr.dropna(subset=['name','host_id','host_name','neighbourhood_cleansed',
-  'neighbourhood_group_cleansed','latitude','longitude','room_type','accommodates',
-  'amenities','price','minimum_nights','availability_365','number_of_reviews',
-  'first_review','reviews_per_month'])
+# df2 = df2.dropna(subset=['name','host_id','host_name','neighbourhood_cleansed',
+#   'neighbourhood_group_cleansed','latitude','longitude','room_type','accommodates',
+#   'amenities','price','minimum_nights','availability_365','number_of_reviews','first_review','reviews_per_month'])
+# df1ch = df1ch.dropna(subset=['name','host_id','host_name','neighbourhood_cleansed',
+#   'neighbourhood_group_cleansed','latitude','longitude','room_type','accommodates',
+#   'amenities','price','minimum_nights','availability_365','number_of_reviews',
+#   'first_review','reviews_per_month'])
+# df2ch = df2ch.dropna(subset=['name','host_id','host_name','neighbourhood_cleansed',
+#   'neighbourhood_group_cleansed','latitude','longitude','room_type','accommodates',
+#   'amenities','price','minimum_nights','availability_365','number_of_reviews',
+#   'first_review','reviews_per_month'])
+# dfad = dfad.dropna(subset=['name','host_id','host_name','neighbourhood_cleansed',
+#   'neighbourhood_group_cleansed','latitude','longitude','room_type','accommodates',
+#   'amenities','price','minimum_nights','availability_365','number_of_reviews',
+#   'first_review','reviews_per_month'])
+# dfdr = dfdr.dropna(subset=['name','host_id','host_name','neighbourhood_cleansed',
+#   'neighbourhood_group_cleansed','latitude','longitude','room_type','accommodates',
+#   'amenities','price','minimum_nights','availability_365','number_of_reviews',
+#   'first_review','reviews_per_month'])
 
 # 결측 값 제거 확인
 # print(df1.isnull().sum())
@@ -78,15 +78,15 @@ dfdr = dfdr.dropna(subset=['name','host_id','host_name','neighbourhood_cleansed'
 # price와 availability_365의 값이 0인 low를 모든 데이터 프레임에서 제거
 df1 = df1[df1.price != 0]
 df1 = df1[df1.availability_365 != 0]
-df2 = df2[df2.price != 0]
-df2 = df2[df2.availability_365 != 0]
-df1ch = df1ch[df1ch.price != 0]
-df1ch = df1ch[df1ch.availability_365 != 0]
-df2ch = df2ch[df2ch.price != 0]
-df2ch = df2ch[df2ch.availability_365 != 0]
-dfad = dfad[dfad.availability_365 != 0]
-dfdr = dfdr[dfdr.price != 0]
-dfdr = dfdr[dfdr.availability_365 != 0]
+# df2 = df2[df2.price != 0]
+# df2 = df2[df2.availability_365 != 0]
+# df1ch = df1ch[df1ch.price != 0]
+# df1ch = df1ch[df1ch.availability_365 != 0]
+# df2ch = df2ch[df2ch.price != 0]
+# df2ch = df2ch[df2ch.availability_365 != 0]
+# dfad = dfad[dfad.availability_365 != 0]
+# dfdr = dfdr[dfdr.price != 0]
+# dfdr = dfdr[dfdr.availability_365 != 0]
 
 # price, minimum_nights가 지나치게 높을 때 Outlier 제거
 # =========== # df1 price 가격&숙박일수 제거 ============================
@@ -122,7 +122,7 @@ print(temp) # 144
 df1 = df1[df1.minimum_nights <= 90]
 print(sum(df1.minimum_nights <= 90)) # 24675
 # df1는 총 543개의 low가 삭제되었으며, 24675개의 low가 남았습니다.
-
+'''
 # =========== # df2 price 가격&숙박일수 제거 ============================
 content = np.percentile(df2['price'], p, interpolation='nearest')
 print(len(content))
@@ -228,13 +228,13 @@ print(temp) # 144
 dfdr = dfdr[dfdr.minimum_nights <= 90]
 print(sum(dfdr.minimum_nights <= 90))
 # dfdr 총 265행이 삭제 되고 9896행이 남았습니다.
-
+'''
 # pandas to_csv() function
 df1.to_csv("C:/data/personal/university/2019_12_after_preprocessing.csv", index = False)
-df2.to_csv("C:/data/personal/university/2020_10_after_preprocessing.csv", index = False)
-df1ch.to_csv("C:/data/personal/university/2019_12_changed_compared_with_2020_10_after_preprocessing.csv", index = False)
-df2ch.to_csv("C:/data/personal/university/2020_10_changed_compared_with_2019_12_after_preprocessing.csv", index = False)
-dfad.to_csv("C:/data/personal/university/2020_10_added_compared_with_2019_12_after_preprocessing.csv", index = False)
-dfdr.to_csv("C:/data/personal/university/2020_10_dropped_compared_with_2019_12_after_preprocessing.csv", index = False)
+# df2.to_csv("C:/data/personal/university/2020_10_after_preprocessing.csv", index = False)
+# df1ch.to_csv("C:/data/personal/university/2019_12_changed_compared_with_2020_10_after_preprocessing.csv", index = False)
+# df2ch.to_csv("C:/data/personal/university/2020_10_changed_compared_with_2019_12_after_preprocessing.csv", index = False)
+# dfad.to_csv("C:/data/personal/university/2020_10_added_compared_with_2019_12_after_preprocessing.csv", index = False)
+# dfdr.to_csv("C:/data/personal/university/2020_10_dropped_compared_with_2019_12_after_preprocessing.csv", index = False)
 
 
