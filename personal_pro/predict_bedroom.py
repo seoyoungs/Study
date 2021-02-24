@@ -106,7 +106,6 @@ for i in grid_random:
     print('R2 %f' % r2_score(y_test, y_pred))
     print('model.score : ', acc)
 
-
 '''
 price_model = XGBRegressor(n_estimators = 580, learining_rate=0.01,
                      tree_method='gpu_hist', predictor = 'gpu_predictor')
