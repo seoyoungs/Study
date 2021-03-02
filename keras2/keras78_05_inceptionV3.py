@@ -48,15 +48,15 @@ model.add(Flatten())
 model.add(Dense(10))
 model.add(Dense(5))
 model.add(Dense(10, activation='softmax'))
-model.summary()
+# model.summary()
 
 
 #3. 컴파일, 훈련
 model.compile(loss='categorical_crossentropy',
               optimizer='adam', metrics=['acc'])
 ####loss가 이진 분류일 때는binary_crossentropy(0,1만 추출)
-model.fit(x_train,y_train, epochs=10, 
-           validation_split=0.2, batch_size=16,verbose=1)
+model.fit(x_train,y_train, epochs=20, 
+           validation_split=0.2, batch_size=64, verbose=1)
 
 #4. 평가 훈련
 loss, acc = model.evaluate(x_test, y_test, batch_size=64)
@@ -90,6 +90,10 @@ Loss :  1.0731868743896484
 acc :  0.6269999742507935
 
 InceptionV3
-ValueError: Input size must be at least 75x75; got `input_shape=(32, 32, 3)`
+Loss :  1.1454721689224243
+acc :  0.6111999750137329
+32,32,3이 upsampling이 3일 때를 고려
+// 전이학습 정의할 떄 크기를 바로 (96,96,3) 으로 지정한다
+
 '''
 

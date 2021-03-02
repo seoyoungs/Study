@@ -89,10 +89,16 @@ Loss :  1.0731868743896484
 acc :  0.6269999742507935
 
 InceptionV3
-ValueError: Input size must be at least 75x75; got `input_shape=(32, 32, 3)`
+Loss :  1.1454721689224243
+acc :  0.6111999750137329
+32,32,3이 upsampling이 3일 때를 고려
+// 전이학습 정의할 떄 크기를 바로 (96,96,3) 으로 지정한다
 
 inceptionresnetV2
-ValueError: Input size must be at least 75x75; got `input_shape=(32, 32, 3)`
+Loss :  2.3901398181915283
+acc :  0.23330000042915344
+32,32,3이 upsampling이 3일 때를 고려
+// 전이학습 정의할 떄 크기를 바로 (96,96,3) 으로 지정한다
 
 DenseNet121
 Loss :  1.3808035850524902

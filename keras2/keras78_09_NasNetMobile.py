@@ -7,7 +7,7 @@
 from tensorflow.keras.datasets import cifar10
 import numpy as np
 import matplotlib.pyplot as plt
-from tensorflow.keras.layers import Dense, Flatten
+from tensorflow.keras.layers import Dense, Flatten, Input
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.applications.vgg16 import preprocess_input
 from keras.utils.np_utils import to_categorical
@@ -19,32 +19,40 @@ from tensorflow.keras.applications import MobileNet, MobileNetV2
 from tensorflow.keras.applications import DenseNet121, DenseNet169, DenseNet201
 from tensorflow.keras.applications import NASNetLarge, NASNetMobile
 from tensorflow.keras.applications import EfficientNetB0, EfficientNetB1
+from sklearn.preprocessing import OneHotEncoder
 
 (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 
-
-NASNetMobile = NASNetMobile(weights = 'imagenet', include_top=False, input_shape=(32, 32, 3))
-# print(model.weights)
-
 # ============== 전처리 ===================
+#다중분류 y원핫코딩
+y_train = y_train.reshape(y_train.shape[0],)
+y_test = y_test.reshape(y_test.shape[0],)
+
+from sklearn.preprocessing import OneHotEncoder
+y_train = y_train.reshape(-1,1)
+y_test = y_test.reshape(-1,1)
+ohencoder = OneHotEncoder()
+ohencoder.fit(y_train)
+y_train = ohencoder.transform(y_train).toarray()
+y_test = ohencoder.transform(y_test).toarray()
+
 x_train = preprocess_input(x_train)
 x_test = preprocess_input(x_test)
 x_train = x_train.astype('float32')/255.  # 전처리
 x_test = x_test.astype('float32')/255.  # 전처리
 
-#다중분류 y원핫코딩
-y_train = to_categorical(y_train) #(50000, 10)
-y_test = to_categorical(y_test)  #(10000, 10)
-
+# print(model.weights)
 # ============== 모델링 =====================
-NASNetMobile.trainable = False # 훈련을 안시키겠다, 저장된 가중치 사용
-NASNetMobile.summary()
+input_tensor = Input(shape=(32, 32, 3))
+apl = NASNetMobile(weights='imagenet', include_top=False,input_tensor = input_tensor)
+apl.trainable = True # apl이라고 입력해야 model에서 인식됨
+# nes.summary()
 # 즉, 16개의 레이어지만 연산되는 것은 13개 이고 그래서 len=26개
-print(len(NASNetMobile.weights)) # 26
-print(len(NASNetMobile.trainable_weights)) # 0
+# print(len(NASNetMobile.weights)) # 26
+# print(len(NASNetMobile.trainable_weights)) # 0
 
 model = Sequential()
-model.add(NASNetMobile) # 3차원 -> layer 26개
+model.add(apl) # 3차원 -> layer 26개
 model.add(Flatten())
 model.add(Dense(10))
 model.add(Dense(5))
@@ -56,7 +64,7 @@ model.compile(loss='categorical_crossentropy',
               optimizer='adam', metrics=['acc'])
 ####loss가 이진 분류일 때는binary_crossentropy(0,1만 추출)
 model.fit(x_train,y_train, epochs=10, 
-           validation_split=0.2, batch_size=16,verbose=1)
+           validation_split=0.2, batch_size=64,verbose=1)
 
 #4. 평가 훈련
 loss, acc = model.evaluate(x_test, y_test, batch_size=64)
@@ -90,10 +98,16 @@ Loss :  1.0731868743896484
 acc :  0.6269999742507935
 
 InceptionV3
-ValueError: Input size must be at least 75x75; got `input_shape=(32, 32, 3)`
+Loss :  1.1454721689224243
+acc :  0.6111999750137329
+32,32,3이 upsampling이 3일 때를 고려
+// 전이학습 정의할 떄 크기를 바로 (96,96,3) 으로 지정한다
 
 inceptionresnetV2
-ValueError: Input size must be at least 75x75; got `input_shape=(32, 32, 3)`
+Loss :  2.3901398181915283
+acc :  0.23330000042915344
+32,32,3이 upsampling이 3일 때를 고려
+// 전이학습 정의할 떄 크기를 바로 (96,96,3) 으로 지정한다
 
 DenseNet121
 Loss :  1.3808035850524902
@@ -104,6 +118,7 @@ Loss :  2.1209733486175537
 acc :  0.22920000553131104
 
 NASNetMobile
-ValueError: When setting `include_top=True` and loading `imagenet` weights, `input_shape` should be (224, 224, 3).     
-
+Loss :  6.728374004364014
+acc :  0.5274999737739563
+apl.trainable = True # apl이라고 입력해야 model에서 인식됨
 '''

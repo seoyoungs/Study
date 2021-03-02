@@ -22,10 +22,6 @@ from tensorflow.keras.applications import EfficientNetB0, EfficientNetB1
 
 (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 
-
-inceptionresnetV2 = InceptionResNetV2(weights = 'imagenet', include_top=False, input_shape=(32, 32, 3))
-# print(model.weights)
-
 # ============== 전처리 ===================
 x_train = preprocess_input(x_train)
 x_test = preprocess_input(x_test)
@@ -34,27 +30,29 @@ x_test = preprocess_input(x_test)
 y_train = to_categorical(y_train) #(50000, 10)
 y_test = to_categorical(y_test)  #(10000, 10)
 
+inceptionresnetV2 = InceptionResNetV2(weights = 'imagenet', include_top=False, input_shape=(96,96, 3))
+# print(model.weights)
+
 # ============== 모델링 =====================
 inceptionresnetV2.trainable = False # 훈련을 안시키겠다, 저장된 가중치 사용
-inceptionresnetV2.summary()
-# 즉, 16개의 레이어지만 연산되는 것은 13개 이고 그래서 len=26개
+# inceptionresnetV2.summary()
 print(len(inceptionresnetV2.weights)) # 26
 print(len(inceptionresnetV2.trainable_weights)) # 0
 
 model = Sequential()
-model.add(inceptionresnetV2) # 3차원 -> layer 26개
+model.add(UpSampling2D(size=(3,3))) # 3차원 -> layer 26개
 model.add(Flatten())
 model.add(Dense(10))
 model.add(Dense(5))
 model.add(Dense(10, activation='softmax'))
-model.summary()
+# model.summary() # 이거 하면 build에러난다
 
 #3. 컴파일, 훈련
 model.compile(loss='categorical_crossentropy',
               optimizer='adam', metrics=['acc'])
 ####loss가 이진 분류일 때는binary_crossentropy(0,1만 추출)
-model.fit(x_train,y_train, epochs=10, 
-           validation_split=0.2, batch_size=16,verbose=1)
+model.fit(x_train,y_train, epochs=20,
+           validation_split=0.2, batch_size=64, verbose=1)
 
 #4. 평가 훈련
 loss, acc = model.evaluate(x_test, y_test, batch_size=64)
@@ -88,8 +86,14 @@ Loss :  1.0731868743896484
 acc :  0.6269999742507935
 
 InceptionV3
-ValueError: Input size must be at least 75x75; got `input_shape=(32, 32, 3)`
+Loss :  1.1454721689224243
+acc :  0.6111999750137329
+32,32,3이 upsampling이 3일 때를 고려
+// 전이학습 정의할 떄 크기를 바로 (96,96,3) 으로 지정한다
 
 inceptionresnetV2
-ValueError: Input size must be at least 75x75; got `input_shape=(32, 32, 3)`
+Loss :  2.3901398181915283
+acc :  0.23330000042915344
+32,32,3이 upsampling이 3일 때를 고려
+// 전이학습 정의할 떄 크기를 바로 (96,96,3) 으로 지정한다
 '''
