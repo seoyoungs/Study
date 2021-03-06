@@ -36,7 +36,7 @@ test_datagen = ImageDataGenerator(rescale=1./255)
 
 xy_train = train_datagen.flow_from_directory(
     'C:/data/image/ma_female/classifer/',
-    target_size=(64, 64),
+    target_size=(150,150),
     batch_size=16,
     class_mode='binary',
     subset='training'
@@ -45,7 +45,7 @@ xy_train = train_datagen.flow_from_directory(
 # validation
 xy_val = train_datagen.flow_from_directory(
     'C:/data/image/ma_female/classifer/',
-    target_size=(64, 64),
+    target_size=(150,150),
     batch_size=16,
     class_mode='binary',
     subset='validation'
@@ -55,18 +55,18 @@ print(xy_train[0][0].shape) # (16, 64, 64, 3)
 print(xy_train[0][1].shape) # (16,)
 # print(xy_train[0][0].shape)
 # print(xy_train)
-'''
-# ================= save ===========================
-np.save('C:/data/image/ma_female/npy/keras67_train_x.npy', arr= xy_train[0][0])
-np.save('C:/data/image/ma_female/npy/keras67_train_y.npy', arr= xy_train[0][1])
-np.save('C:/data/image/ma_female/npy/keras67_val_x.npy', arr= xy_val[0][0])
-np.save('C:/data/image/ma_female/npy/keras67_val_y.npy', arr= xy_val[0][1])
-'''
-np.load('C:/data/image/ma_female/npy/keras67_train_x.npy')
-np.load('C:/data/image/ma_female/npy/keras67_train_y.npy')
-np.load('C:/data/image/ma_female/npy/keras67_val_x.npy')
-np.load('C:/data/image/ma_female/npy/keras67_val_y.npy')
 
+# ================= save ===========================
+np.save('C:/data/npy/keras67_train_x.npy', arr= xy_train[0][0])
+np.save('C:/data/npy/keras67_train_y.npy', arr= xy_train[0][1])
+np.save('C:/data/npy/keras67_val_x.npy', arr= xy_val[0][0])
+np.save('C:/data/npy/keras67_val_y.npy', arr= xy_val[0][1])
+'''
+np.load('C:/data/npy/keras67_train_x.npy')
+np.load('C:/data/npy/keras67_train_y.npy')
+np.load('C:/data/npy/keras67_val_x.npy')
+np.load('C:/data/npy/keras67_val_y.npy')
+'''
 
 #================================= model ===================
 from keras.optimizers import Adam
