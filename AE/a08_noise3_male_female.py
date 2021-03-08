@@ -30,6 +30,7 @@ from tensorflow.keras.layers import *
 
 '''
 #================== 수현오빠 CONV2D로 하고 Dense로 바꾸기(모양을 transpose로 잡아준다) ================
+# con2d랑 tranpose는 개수 맞춰서 해주기
 def autoencoder():
     inputs = Input(shape=(150,150,3))
     layer1 = Conv2D(64, (3,3), strides=2, padding='same')(inputs)
@@ -91,8 +92,7 @@ def autoencoder():# hidden_layer_size -> 컬러라 (150, 150, 3) 그대로 내�
 model = autoencoder() # hidden_layer_size = 154
 model.compile(optimizer='adam', loss = 'binary_crossentropy',
                  metrics=['acc'])
-model.fit(x_train_noised, train_x, epochs=400) #  번갈아 가면서 훈련 시키기 위함
-
+model.fit(x_train_noised, train_x, epochs=200) #  번갈아 가면서 훈련 시키기 위함
 output = model.predict(x_test_noised) #노이즈 제거 됐는지 확인
 
 from matplotlib import pyplot as plt
