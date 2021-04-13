@@ -14,12 +14,14 @@ print(y) #0,1,2 다중분류
 print(x.shape) #(178,13)
 print(y.shape) #(178, )
 '''
-
+print(x)
+print(y)
 ###실습, DNN완성
 from sklearn.preprocessing import OneHotEncoder
 encoder = OneHotEncoder()
 y = encoder.fit_transform(y.reshape(-1,1)).toarray()
-print(y)
+# print(y.head())
+
 
 ###데이터 전처리
 from sklearn.model_selection import train_test_split
